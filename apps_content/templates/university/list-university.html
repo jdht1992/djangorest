@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}<title>List university</title>{% endblock %}
+{% block content %}
+    <h1>Lista de universidades</h1>
+    <a href="{% url 'create_university' %}">Crear</a><br>
+    {% for university in universities %}
+        <a href="{% url 'detail_university' university.pk %}">
+            {{university.pk}} - {{university.full_name}}<br>
+        </a>
+        <a href="{% url 'update_university' university.pk %}">Editar</a><br><br>
+    {% endfor %}
+{% endblock %}

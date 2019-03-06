@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}<title>detail book</title>>{% endblock %}
+{% block content %}
+<h1>Detalle del tienda</h1>
+    <p>Nombre - {{book.name}}</p>
+    <p>Book code - {{book.book_code}}</p>
+    <p>Pages - {{book.pages}}</p>
+    <p>Price - {{book.price}}</p>
+    <p>Rating - {{book.rating}}</p>
+    {% for b in book.authors.all %}
+    <p>Autor - {{b}}</p>
+    {% endfor %}
+    <p>Publisher - {{book.publisher}}</p>
+    <p>Publication date - {{book.publication_date}}</p>
+    <p>Gender - {{book.gender}}</p>
+<a href="{% url 'list_book' %}">Regresar</a>
+{% endblock %}

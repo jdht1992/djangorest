@@ -1,0 +1,24 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <h1>Django Login Mega-Tutorial</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome {{ user.username }} !!!</p>
+        <p><a href="{% url 'account_logout' %}">Log out</a>
+        <p><a href="{% url 'password_change' %}">Change password</a></p>
+    {% else %}
+        <p><a href="{% url 'account_signup' %}">Sign Up</a></p>
+        <p><a href="{% url 'account_login' %}">Log In </a></p>
+        <p><a href="{% provider_login_url "facebook" method="oauth2" %}">Log In face </a></p>
+    {% endif %}
+</body>
+</html>
+
+

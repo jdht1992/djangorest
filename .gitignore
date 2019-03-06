@@ -1,0 +1,23 @@
+### Jetbrains IDE
+.idea/
+
+### Python template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+### Environments
+*.env
+
+.vscode/
+
+uwsgi_params
+
+project_content/media/
+
+staticfiles/
+
+*.ini
+
+http/http-client.env.json
