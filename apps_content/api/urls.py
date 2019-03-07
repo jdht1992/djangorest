@@ -4,7 +4,8 @@ from apps_content.api.views import (
     StoreViewSet,
     AuthorListCreateAPIView, AuthorGetPutDeleteAPIView,
     PublisherListAPIView, PublisherRetrieveAPIView, PublisherCreateAPIView, PublisherUpdateAPIView, PublisherDestroyPIView,
-    BookListAPIView, BookRetrieveAPIView, BookCreateAPIView, BookUpdateAPIView, BookDestroyAPIView
+    BookListAPIView, BookRetrieveAPIView, BookCreateAPIView, BookUpdateAPIView, BookDestroyAPIView,
+    UniversityListAPIView, UniversityRetrieveAPIView, UniversityCreateAPIView
 )
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -29,4 +30,9 @@ urlpatterns = [
     path('book/create/', BookCreateAPIView.as_view()),
     path('book/update/<int:pk>/', BookUpdateAPIView.as_view()),
     path('book/delete/<int:pk>/', BookDestroyAPIView.as_view()),
+    #University
+    path('university/', UniversityListAPIView.as_view()),
+    path('university/detail/<int:pk>/', UniversityRetrieveAPIView.as_view()),
+    path('university/create/', UniversityCreateAPIView.as_view()),
+    #Student
 ]

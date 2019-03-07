@@ -7,8 +7,8 @@ from django.http import Http404
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 
-from apps_content.api.serializers import StoreSerializer, AuthorSerializer, PublisherSerializer, BookSerializer
-from apps_content.biblioteca.models import Store, Author, Publisher, Book
+from apps_content.api.serializers import StoreSerializer, AuthorSerializer, PublisherSerializer, BookSerializer, UniversitySerializer
+from apps_content.biblioteca.models import Store, Author, Publisher, Book, University
 
 
 class StoreViewSet(viewsets.ModelViewSet):
@@ -113,3 +113,18 @@ class BookUpdateAPIView(UpdateAPIView):
 class BookDestroyAPIView(DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+class UniversityListAPIView(ListAPIView):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer
+
+
+class UniversityRetrieveAPIView(RetrieveAPIView):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer
+
+
+class UniversityCreateAPIView(CreateAPIView):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer

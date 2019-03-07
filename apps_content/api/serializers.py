@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps_content.biblioteca.models import Store, Author, Publisher, Book
+from apps_content.biblioteca.models import Store, Author, Publisher, Book, University
 
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,3 +36,11 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('id', 'name', 'book_code', 'pages', 'price', 'rating', 'authors', 'publisher', 'publication_date', 'gender', 'created_by')
+
+
+class UniversitySerializer(serializers.ModelSerializer):
+    students = serializers.SlugRelatedField(many=True, read_only=True, slug_field='first_name')
+
+    class Meta:
+        model = University
+        fields = ('id', 'full_name', 'address', 'city', 'university_type', 'students')

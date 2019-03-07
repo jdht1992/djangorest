@@ -81,7 +81,7 @@ class Student(TimeStampedModel):
     first_name = models.CharField('first name', max_length=30, blank=False, null=False, help_text='Nombre verdadero')
     # blank=True, null=True entonces un formulario permitirá un valor vacío
     last_name = models.CharField('last name', max_length=30, blank=True, null=True)
-    university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='university')
+    university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='students')
     MARITAL_STATUS = (
         ('Single', 'Single'),
         ('Merried', 'Merried'),
