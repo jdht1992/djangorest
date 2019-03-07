@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps_content.biblioteca.models import Store, Author, Publisher
+from apps_content.biblioteca.models import Store, Author, Publisher, Book
 
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,3 +26,13 @@ class PublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
         fields = ('id', 'name', 'address', 'city', 'state_province', 'country', 'website', 'books')
+
+
+class BookSerializer(serializers.ModelSerializer):
+    authors = AuthorSerializer(many=True)
+    #authors = serializers.ReadOnlyField(source='authors.name') Esto no se puede por que es una relacion a muchos
+    publisher = serializers.ReadOnlyField(source='publisher.name')
+    #publisher = PublisherSerializer(many=True) Esto no se puede
+    class Meta:
+        model = Book
+        fields = ('id', 'name', 'book_code', 'pages', 'price', 'rating', 'authors', 'publisher', 'publication_date', 'gender', 'created_by')
