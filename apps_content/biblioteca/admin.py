@@ -3,7 +3,7 @@ from apps_content.biblioteca.models import Store, University, Book, Author, Publ
 
 
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'direction', 'post_books')
+    list_display = ('id', 'name', 'direction', 'post_books')
     list_filter = ('name', 'direction')
     search_fields = ('name', 'direction',)
     readonly_fields = ('created', 'modified')

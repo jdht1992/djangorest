@@ -36,8 +36,8 @@ class Book(TimeStampedModel):
     pages = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)#para almacenar números hasta 999 con una resolución de 2 decimales
     rating = models.FloatField()
-    authors = models.ManyToManyField(Author, related_name="book", blank=True, null=True)
-    publisher = models.ForeignKey(Publisher, related_name="book", on_delete=models.CASCADE)
+    authors = models.ManyToManyField(Author, related_name="books", blank=True, null=True)
+    publisher = models.ForeignKey(Publisher, related_name="books", on_delete=models.CASCADE)
     publication_date = models.DateField()
     gender = models.CharField(max_length=300)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='book')

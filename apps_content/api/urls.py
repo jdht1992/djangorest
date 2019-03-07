@@ -1,7 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 from apps_content.api.views import (
-    StoreViewSet, AuthorListAPIView,
+    StoreViewSet,
+    AuthorListCreateAPIView, AuthorGetPutDeleteAPIView,
     PublisherListAPIView, PublisherRetrieveAPIView, PublisherCreateAPIView, PublisherUpdateAPIView, PublisherDestroyPIView
 )
 
@@ -12,7 +13,10 @@ router.register('store', StoreViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('author', AuthorListAPIView.as_view(), name='api_list_author'),
+    #Author
+    path('author/', AuthorListCreateAPIView.as_view()),
+    path('author/<int:pk>/', AuthorGetPutDeleteAPIView.as_view()),
+    #Publisher
     path('publisher', PublisherListAPIView.as_view(), name='api_list_publisher'),
     path('publisher/detail/<name>/', PublisherRetrieveAPIView.as_view()),
     path('publisher/create/', PublisherCreateAPIView.as_view()),
