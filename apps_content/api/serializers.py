@@ -16,7 +16,14 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Author
-        fields = ('id','name', 'age', 'salutation', 'email', 'created', 'modified', 'books')
+        fields = ('id', 'name', 'age', 'salutation', 'email', 'created', 'modified', 'books')
+
+
+class AuthorListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Author
+        fields = ('id', 'name')
 
 
 class PublisherSerializer(serializers.ModelSerializer):
@@ -29,13 +36,20 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = AuthorSerializer(many=True)
-    #authors = serializers.ReadOnlyField(source='authors.name') Esto no se puede por que es una relacion a muchos
+    authors = AuthorListSerializer(many=True)
     publisher = serializers.ReadOnlyField(source='publisher.name')
-    #publisher = PublisherSerializer(many=True) Esto no se puede
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+
     class Meta:
         model = Book
         fields = ('id', 'name', 'book_code', 'pages', 'price', 'rating', 'authors', 'publisher', 'publication_date', 'gender', 'created_by')
+
+
+class BookListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Book
+        fields = ('id', 'name')
 
 
 class UniversitySerializer(serializers.ModelSerializer):
@@ -56,8 +70,9 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class LoanSerializer(serializers.ModelSerializer):
+    book = BookListSerializer(many=True)
     student = serializers.ReadOnlyField(source='student.first_name')
 
     class Meta:
         model = Loan
-        fields = ('id', 'order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
+        fields = ('id', 'order_number', 'student', 'date_s', 'date_e', 'date_d', 'book')
