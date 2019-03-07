@@ -54,6 +54,7 @@ class Store(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 class University(TimeStampedModel):
     full_name = models.CharField(max_length=150)
     address = models.CharField(max_length=100)
@@ -118,4 +119,3 @@ class Loan(TimeStampedModel):
 
     def __str__(self):
         return self.order_number
-

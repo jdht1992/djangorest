@@ -3,11 +3,12 @@ from apps_content.biblioteca.models import Store, University, Book, Author, Publ
 
 
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ['name', 'direction', 'post_books']
+    list_display = ('name', 'direction', 'post_books')
     list_filter = ('name', 'direction')
     search_fields = ('name', 'direction',)
     readonly_fields = ('created', 'modified')
     date_hierarchy = 'created'
+    ordering = ('created',)
 
     def post_books(self, obj):
         return ", ".join([c.name for c in obj.books.all().order_by("name")])
