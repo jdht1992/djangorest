@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps_content.biblioteca.models import Store, Author, Publisher, Book, University
+from apps_content.biblioteca.models import Store, Author, Publisher, Book, University, Student, Loan
 
 
 class StoreSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,3 +44,20 @@ class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ('id', 'full_name', 'address', 'city', 'university_type', 'students')
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    university = serializers.ReadOnlyField(source='university.full_name')
+
+    class Meta:
+        model = Student
+        fields = ('id', 'first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number',
+        'additional_data', 'birthday',)
+
+
+class LoanSerializer(serializers.ModelSerializer):
+    student = serializers.ReadOnlyField(source='student.first_name')
+
+    class Meta:
+        model = Loan
+        fields = ('id', 'order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')

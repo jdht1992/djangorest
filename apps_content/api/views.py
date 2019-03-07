@@ -7,8 +7,11 @@ from django.http import Http404
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 
-from apps_content.api.serializers import StoreSerializer, AuthorSerializer, PublisherSerializer, BookSerializer, UniversitySerializer
-from apps_content.biblioteca.models import Store, Author, Publisher, Book, University
+from apps_content.api.serializers import (
+    StoreSerializer, AuthorSerializer, PublisherSerializer, BookSerializer, UniversitySerializer,
+    StudentSerializer, LoanSerializer
+)
+from apps_content.biblioteca.models import Store, Author, Publisher, Book, University, Student, Loan
 
 
 class StoreViewSet(viewsets.ModelViewSet):
@@ -128,3 +131,43 @@ class UniversityRetrieveAPIView(RetrieveAPIView):
 class UniversityCreateAPIView(CreateAPIView):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
+
+
+class StudentListAPIView(ListAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class StudentRetrieveAPIView(RetrieveAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class StudentCreateAPIView(CreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class LoanListAPIView(ListAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
+
+class LoanRetrieveAPIView(RetrieveAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
+
+class LoanCreateAPIView(CreateAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
+
+class LoanUpdateAPIView(UpdateAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
+
+class LoanDestroyAPIView(DestroyAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer

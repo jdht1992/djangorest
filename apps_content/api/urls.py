@@ -5,7 +5,9 @@ from apps_content.api.views import (
     AuthorListCreateAPIView, AuthorGetPutDeleteAPIView,
     PublisherListAPIView, PublisherRetrieveAPIView, PublisherCreateAPIView, PublisherUpdateAPIView, PublisherDestroyPIView,
     BookListAPIView, BookRetrieveAPIView, BookCreateAPIView, BookUpdateAPIView, BookDestroyAPIView,
-    UniversityListAPIView, UniversityRetrieveAPIView, UniversityCreateAPIView
+    UniversityListAPIView, UniversityRetrieveAPIView, UniversityCreateAPIView,
+    StudentListAPIView, StudentRetrieveAPIView, StudentCreateAPIView,
+    LoanListAPIView, LoanRetrieveAPIView, LoanCreateAPIView, LoanUpdateAPIView, LoanDestroyAPIView
 )
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -35,4 +37,13 @@ urlpatterns = [
     path('university/detail/<int:pk>/', UniversityRetrieveAPIView.as_view()),
     path('university/create/', UniversityCreateAPIView.as_view()),
     #Student
+    path('student/', StudentListAPIView.as_view()),
+    path('student/detail/<int:pk>/', StudentRetrieveAPIView.as_view()),
+    path('student/create/', StudentCreateAPIView.as_view()),
+    #Loan
+    path('loan/', LoanListAPIView.as_view(), name='loan_list'),
+    path('loan/<int:pk>/', LoanRetrieveAPIView.as_view(), name='loan_detail'),
+    path('loan/create/', LoanCreateAPIView.as_view(), name='loan_create'),
+    path('loan/update/<int:pk>/', LoanUpdateAPIView.as_view(), name='loan_update'),
+    path('loan/delete/<int:pk>/', LoanDestroyAPIView.as_view(), name='loan_delete'),
 ]
