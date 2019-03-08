@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}<title>List Student</title>{% endblock %}
+{% block content %}
+<h1>Lista de student</h1>
+<a href="{% url 'create_student' %}">Crear</a><br>
+{% for student in students %}
+        <a href="{% url 'detail_student' student.pk %}">
+            {{student.pk}} - {{student.first_name}} -{{student.last_name}}<br>
+        </a>
+        <a href="{% url 'update_student' student.pk %}">Editar</a><br><br>
+    {% endfor %}
+{% endblock %}

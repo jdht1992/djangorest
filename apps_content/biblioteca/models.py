@@ -100,6 +100,7 @@ class Student(TimeStampedModel):
     telephone_number = models.CharField(max_length=12)
     additional_data = models.TextField(max_length=500, blank=True)
     birthday = models.DateField()
+    image = models.ImageField(upload_to='img_student', default='nada.png')
 
     class Meta:  # new
         verbose_name = 'student'

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}<title>detail student</title>{% endblock %}
+{% block content %}
+<h1>Detalle del student</h1>
+    <p>Nombre - {{student.first_name}}</p>
+    <p>last_name - {{student.last_name}}</p>
+    <p>university - {{student.university}}</p>
+    <p>marital_status - {{student.marital_status}}</p>
+    <p>gender - {{student.gender}}</p>
+    <p>address - {{student.address}}</p>
+    <p>telephone_number - {{student.telephone_number}}</p>
+    <p>additional_data - {{student.additional_data}}</p>
+    <p>birthday - {{student.birthday}}</p>
+    {% if student.image %}
+        <td><img src="{{student.image.url}}" alt="" style="width:100px; height:100px;"></td>
+    {% endif %}
+<a href="{% url 'list_student' %}">Regresar</a>
+{% endblock %}
+

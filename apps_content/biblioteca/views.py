@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 from .forms import BookModelForm
 
-from .models import University, Store, Book
+from .models import University, Store, Book, Student
 
 
 class HomePageView(TemplateView):
@@ -117,3 +117,29 @@ class BookUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('update_book', args=[self.object.pk])
+
+
+class StudentListView(ListView):
+    model = Student
+    template_name = 'student/list-student.html'
+    context_object_name = 'students'
+
+
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'student/detail-student.html'
+    context_object_name = 'student'
+
+
+class StudentCreateView(CreateView):
+    model = Student
+    fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
+    template_name = 'student/create-student.html'
+    success_url = reverse_lazy('list_student')
+
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
+    template_name = 'student/update-student.html'
+    success_url = reverse_lazy('list_student')
