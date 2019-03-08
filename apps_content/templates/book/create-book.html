@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <h1>Crear book</h1>
-    <form action="" method="POST">{% csrf_token %}
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{form.as_p}}
         <a href="{% url 'list_book' %}">Regresar</a>
         <input type="submit" value="Guardar">

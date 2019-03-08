@@ -103,20 +103,16 @@ class BookCreateView(CreateView):
 
 
 class BookUpdateView(UpdateView):
+    model = Book
+    form_class = BookModelForm
     template_name = 'book/update-book.html'
-    fields = ('name', 'book_code', 'pages', 'price', 'rating', 'authors', 'publisher', 'publication_date', 'gender')
+    success_url = reverse_lazy('list_book')
 
     def form_valid(self, form):
         book = form.save(commit=False)
         book.created_by = self.request.user
         book.save()
         return super(BookUpdateView, self).form_valid(form)
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Book, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('update_book', args=[self.object.pk])
 
 
 class StudentListView(ListView):

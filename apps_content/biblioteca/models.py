@@ -41,6 +41,7 @@ class Book(TimeStampedModel):
     publication_date = models.DateField()
     gender = models.CharField(max_length=300)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='book')
+    file_book = models.FileField(upload_to='file_book', default='nada.png')
 
     def __str__(self):
         return f"{self.pk} - {self.name}"
@@ -64,7 +65,7 @@ class University(TimeStampedModel):
         ('Public', 'A public university'),
         ('Private', 'A private university')
     )
-    university_type = models.CharField(choices=UNIVERSITY_TYPE, default=UNIVERSITY_TYPE, max_length=100,)
+    university_type = models.CharField(choices=UNIVERSITY_TYPE, default=UNIVERSITY_TYPE, max_length=100)
 
     class Meta:
         indexes = [models.Index(fields=['full_name'])]

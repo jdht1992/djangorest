@@ -13,7 +13,10 @@
     <p>birthday - {{student.birthday}}</p>
     {% if student.image %}
         <td><img src="{{student.image.url}}" alt="" style="width:100px; height:100px;"></td>
+    {% else %}
+        <span>No imagen</span>
     {% endif %}
+
 <a href="{% url 'list_student' %}">Regresar</a>
 {% endblock %}
 

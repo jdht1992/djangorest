@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}<title>detail book</title>>{% endblock %}
+{% block title %}<title>detail book</title>{% endblock %}
 {% block content %}
 <h1>Detalle del tienda</h1>
     <p>Nombre - {{book.name}}</p>
@@ -13,5 +13,6 @@
     <p>Publisher - {{book.publisher}}</p>
     <p>Publication date - {{book.publication_date}}</p>
     <p>Gender - {{book.gender}}</p>
+    <a href="{{ book.file_book.url }}">visualizar</a><br>
 <a href="{% url 'list_book' %}">Regresar</a>
 {% endblock %}
