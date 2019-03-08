@@ -50,7 +50,7 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # new
     'allauth.socialaccount',  # new
     'allauth.socialaccount.providers.google',  # new
-    'allauth.socialaccount.providers.github', # new
+    'allauth.socialaccount.providers.github',  # new
     'allauth.socialaccount.providers.facebook',  # new
     'rest_framework',
 )
@@ -75,31 +75,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time',
-        ],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.12',
-    }
-}
+
 
 SOCIAL_AUTH_FACEBOOK_KEY = env('key')
 SOCIAL_AUTH_FACEBOOK_SECRET = env('secret')
@@ -192,16 +168,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-
+#Es la única configuración estática creada de forma predeterminada. Esta es la URL en la que se servirán los archivos estáticos.
 STATIC_URL = '/static/'
 
+#Donde se colocarán los archivos estáticos recogidos
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 
+#carpetas Django buscará archivos estáticos en
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
 ]
+#especificaciones sobre qué archivos buscar
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
+# URL agregada a la URL raíz para servir datos de medios
 MEDIA_URL = '/media/'
+
+#Donde se almacenarán los archivos multimedia recolectados
 MEDIA_ROOT = str(APPS_DIR('media'))
 
 REST_FRAMEWORK = {

@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     #biblioteca
-    path('biblioteca/', include('apps_content.biblioteca.urls')),
+    path('', include('apps_content.biblioteca.urls')),
     #users
     path('users/', include('apps_content.users.urls')),
     path('users/', include('django.contrib.auth.urls')),
