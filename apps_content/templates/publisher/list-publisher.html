@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}<title>List publisher</title>{% endblock %}
+{% block content %}
+<h1>list of publisher</h1>
+<a href="{% url 'create_publisher' %}">Create</a><br>
+{% for publisher in publishers %}
+        <a href="{% url 'detail_publisher' publisher.pk %}">
+            {{publisher.pk}} - {{publisher.name}}<br>
+        </a>
+        <a href="{% url 'update_publisher' publisher.pk%}">Edit</a><br>
+        <a href="{% url 'delete_publisher' publisher.pk%}">Delete</a><br><br>
+    {% endfor %}
+{% endblock %}

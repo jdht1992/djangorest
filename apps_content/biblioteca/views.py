@@ -5,7 +5,7 @@ from django import forms
 
 from .forms import BookModelForm
 
-from .models import University, Store, Book, Student, Author, Loan
+from .models import University, Store, Book, Student, Author, Loan, Publisher
 
 
 class HomePageView(TemplateView):
@@ -244,3 +244,49 @@ class LoanDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy('list_loan')
 
+
+class PublisherListView(ListView):
+    template_name = 'publisher/list-publisher.html'
+    context_object_name = 'publishers'
+
+    def get_queryset(self):
+        return Publisher.objects.all()
+
+
+class PublisherDetailView(DetailView):
+    template_name = 'publisher/detail-publisher.html'
+    context_object_name = 'publisher'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Publisher, pk=self.kwargs['pk'])
+
+
+class PublisherCreateView(CreateView):
+    model = Publisher
+    template_name = 'publisher/create-publisher.html'
+    fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
+
+    def get_success_url(self):
+        return reverse_lazy('create_publisher')
+
+
+class PublisherUpdateView(UpdateView):
+    template_name = 'publisher/update-publisher.html'
+    fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Publisher, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('update_publisher', args=[self.object.pk])
+
+
+class PublisherDeleteView(DeleteView):
+    template_name = 'publisher/delete-publisher.html'
+    context_object_name = 'publisher'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Loan, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_publisher')

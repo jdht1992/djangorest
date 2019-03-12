@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}<title>detail publisher</title>{% endblock %}
+{% block content %}
+<h1>detail publisher</h1>
+    <p>number order - {{publisher.name}}</p>
+    <p>book - {{publisher.address}}</p>
+    <p>student - {{publisher.city}}</p>
+    <p>date_s - {{publisher.state_province}}</p>
+    <p>date_e - {{publisher.country}}</p>
+    <p>date_d - {{publisher.website}}</p>
+<a href="{% url 'list_publisher' %}">Back</a>
+{% endblock %}
+

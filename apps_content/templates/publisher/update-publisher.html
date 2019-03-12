@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>update publisher</title>
+{% endblock %}
+{% block content %}
+<h1>update publisher</h1>
+    <form action="" method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <a href="{% url 'list_publisher' %}">Back</a>
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}
