@@ -1,12 +1,11 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django import forms
 
-
 from .forms import BookModelForm
 
-from .models import University, Store, Book, Student
+from .models import University, Store, Book, Student, Author
 
 
 class HomePageView(TemplateView):
@@ -147,3 +146,37 @@ class StudentUpdateView(UpdateView):
     fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
     template_name = 'student/update-student.html'
     success_url = reverse_lazy('list_student')
+
+
+class AuthorListView(ListView):
+    model = Author
+    template_name = 'author/list-author.html'
+    context_object_name = 'authors'
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = 'author/detail-author.html'
+    context_object_name = 'author'
+
+
+class AuthorCreateView(CreateView):
+    model = Author
+    template_name = 'author/create-author.html'
+    fields = ('name', 'age', 'salutation', 'email')
+
+    def get_success_url(self):
+        return reverse_lazy('create_author')
+
+
+class AuthorUpdateView(UpdateView):
+    model = Author
+    template_name = 'author/update-author.html'
+    fields = ('name', 'age', 'salutation', 'email')
+    success_url = reverse_lazy('list_author')
+
+
+class AuthorDeleteView(DeleteView):
+    model = Author
+    template_name = 'author/delete-author.html'
+    context_object_name = 'author'

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>delete author</title>
+{% endblock %}
+{% block content %}
+ <h1>Eliminar Autor</h1>
+        <form action="" method="POST">{% csrf_token %}
+            <p>Desea eliminar el autor {{author.name}}</p>
+            <input type="submit" value="Eliminar">
+            <a href="{% url 'list_author' %}">Regresar</a>
+        </form>
+{% endblock %}

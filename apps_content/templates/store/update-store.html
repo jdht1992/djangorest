@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>update store</title>>
+    <title>update author</title>
 {% endblock %}
 {% block content %}
-<h1>update Tienda</h1>
+<h1>update author</h1>
     <form action="" method="POST">{% csrf_token %}
         {{form.as_p}}
         <a href="{% url 'list_store' %}">Regresar</a>

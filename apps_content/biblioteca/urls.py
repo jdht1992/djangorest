@@ -3,7 +3,8 @@ from .views import (
     HomePageView, UniversityListView, UniversityCreateView, UniversityDetailView, UniversityUpdateView,
     StoreListView, StoreCreateView, StoreDetailView, StoreUpdateView,
     BookListView, BookDetailView, BookCreateView, BookUpdateView,
-    StudentListView, StudentDetailView, StudentCreateView, StudentUpdateView
+    StudentListView, StudentDetailView, StudentCreateView, StudentUpdateView,
+    AuthorListView, AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
 )
 
 urlpatterns = [
@@ -27,5 +28,12 @@ urlpatterns = [
     path('student/detail/<int:pk>', StudentDetailView.as_view(), name='detail_student'),
     path('student/create', StudentCreateView.as_view(), name='create_student'),
     path('student/update/<int:pk>', StudentUpdateView.as_view(), name='update_student'),
+    #author
+    path('author/list', AuthorListView.as_view(), name='list_author'),
+    path('author/detail/<int:pk>', AuthorDetailView.as_view(), name='detail_author'),
+    path('author/create', AuthorCreateView.as_view(), name='create_author'),
+    path('author/update/<int:pk>', AuthorUpdateView.as_view(), name='update_author'),
+    path('author/delete/<int:pk>', AuthorDeleteView.as_view(), name='delete_author'),
+
 ]
 

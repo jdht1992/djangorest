@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>create store</title>
+    <title>update store</title>
 {% endblock %}
 {% block content %}
-<h1>Crear Tienda</h1>
+<h1>update Tienda</h1>
     <form action="" method="POST">{% csrf_token %}
         {{form.as_p}}
-        <a href="{% url 'list_store' %}">Regresar</a>
+        <a href="{% url 'list_author' %}">Regresar</a>
         <input type="submit" value="Guardar">
     </form>
 {% endblock %}

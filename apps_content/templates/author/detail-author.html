@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}<title>detail Store</title>{% endblock %}
+{% block content %}
+<h1>Detalle del tienda</h1>
+    <p>Nombre - {{author.name}}</p>
+    <p>Direccion - {{author.age}}</p>
+    <p>Direccion - {{author.salutation}}</p>
+    <p>Direccion - {{author.email}}</p>
+<a href="{% url 'list_author' %}">Regresar</a>
+{% endblock %}
+
