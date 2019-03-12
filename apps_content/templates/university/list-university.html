@@ -7,6 +7,7 @@
         <a href="{% url 'detail_university' university.pk %}">
             {{university.pk}} - {{university.full_name}}<br>
         </a>
-        <a href="{% url 'update_university' university.pk %}">Editar</a><br><br>
+        <a href="{% url 'update_university' university.pk %}">Editar</a><br>
+        <a href="{% url 'delete_university' university.pk %}">Delete</a><br><br>
     {% endfor %}
 {% endblock %}

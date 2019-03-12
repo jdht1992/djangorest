@@ -38,6 +38,17 @@ class UniversityUpdateView(UpdateView):
     success_url = reverse_lazy('list_university')
 
 
+class UniversityDeleteView(DeleteView):
+    template_name = 'university/delete-university.html'
+    context_object_name = 'university'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(University, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_university')
+
+
 class StoreListView(ListView):
     template_name = 'store/list-store.html'
     context_object_name = 'stores'
@@ -72,6 +83,18 @@ class StoreUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('update_store', args=[self.object.pk])
+
+
+class StoreDeleteView(DeleteView):
+    template_name = 'store/delete-store.html'
+    context_object_name = 'store'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Store, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_store')
+
 
 
 class BookListView(ListView):
@@ -122,6 +145,17 @@ class BookUpdateView(UpdateView):
         return super(BookUpdateView, self).form_valid(form)
 
 
+class BookDeleteView(DeleteView):
+    template_name = 'book/delete-book.html'
+    context_object_name = 'book'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Book, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_book')
+
+
 class StudentListView(ListView):
     model = Student
     template_name = 'student/list-student.html'
@@ -146,6 +180,17 @@ class StudentUpdateView(UpdateView):
     fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
     template_name = 'student/update-student.html'
     success_url = reverse_lazy('list_student')
+
+
+class StudentDeleteView(DeleteView):
+    template_name = 'student/delete-student.html'
+    context_object_name = 'student'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Student, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_student')
 
 
 class AuthorListView(ListView):

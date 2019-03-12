@@ -7,6 +7,7 @@
         <a href="{% url 'detail_student' student.pk %}">
             {{student.pk}} - {{student.first_name}} -{{student.last_name}}<br>
         </a>
-        <a href="{% url 'update_student' student.pk %}">Editar</a><br><br>
+        <a href="{% url 'update_student' student.pk %}">Editar</a><br>
+        <a href="{% url 'delete_student' student.pk %}">Delete</a><br><br>
     {% endfor %}
 {% endblock %}

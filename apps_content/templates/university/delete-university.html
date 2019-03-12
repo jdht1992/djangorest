@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>delete university</title>
+{% endblock %}
+{% block content %}
+ <h1>delete university</h1>
+        <form action="" method="POST">{% csrf_token %}
+            <p>Desea eliminar el university {{university.full_name}}</p>
+            <input type="submit" value="Delete">
+            <a href="{% url 'list_university' %}">Back</a>
+        </form>
+{% endblock %}
