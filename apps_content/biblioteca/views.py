@@ -5,7 +5,7 @@ from django import forms
 
 from .forms import BookModelForm
 
-from .models import University, Store, Book, Student, Author
+from .models import University, Store, Book, Student, Author, Loan
 
 
 class HomePageView(TemplateView):
@@ -149,15 +149,19 @@ class StudentUpdateView(UpdateView):
 
 
 class AuthorListView(ListView):
-    model = Author
     template_name = 'author/list-author.html'
     context_object_name = 'authors'
 
+    def get_queryset(self):
+        return Author.objects.all()
+
 
 class AuthorDetailView(DetailView):
-    model = Author
     template_name = 'author/detail-author.html'
     context_object_name = 'author'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Author, pk=self.kwargs['pk'])
 
 
 class AuthorCreateView(CreateView):
@@ -175,8 +179,68 @@ class AuthorUpdateView(UpdateView):
     fields = ('name', 'age', 'salutation', 'email')
     success_url = reverse_lazy('list_author')
 
+    def get_object(self, queryset=None):
+        return get_object_or_404(Author, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('update_author', args=[self.object.pk])
+
 
 class AuthorDeleteView(DeleteView):
     model = Author
     template_name = 'author/delete-author.html'
     context_object_name = 'author'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Author, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_author')
+
+
+class LoanListView(ListView):
+    template_name = 'loan/list-loan.html'
+    context_object_name = 'loans'
+
+    def get_queryset(self):
+        return Loan.objects.all()
+
+
+class LoanDetailView(DetailView):
+    template_name = 'loan/detail-loan.html'
+    context_object_name = 'loan'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Loan, pk=self.kwargs['pk'])
+
+
+class LoanCreateView(CreateView):
+    model = Loan
+    template_name = 'loan/create-loan.html'
+    fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
+
+    def get_success_url(self):
+        return reverse_lazy('create_loan')
+
+
+class LoanUpdateView(UpdateView):
+    template_name = 'loan/update-loan.html'
+    fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Loan, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('update_loan', args=[self.object.pk])
+
+
+class LoanDeleteView(DeleteView):
+    template_name = 'loan/delete-loan.html'
+    context_object_name = 'loan'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Loan, pk=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('list_loan')
+

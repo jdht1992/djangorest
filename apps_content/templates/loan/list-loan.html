@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}<title>List loan</title>{% endblock %}
+{% block content %}
+<h1>list of loan</h1>
+<a href="{% url 'create_loan' %}">Crear</a><br>
+{% for loan in loans %}
+        <a href="{% url 'detail_loan' loan.pk %}">
+            {{loan.pk}} - {{loan.order_number}}<br>
+        </a>
+        <a href="{% url 'update_loan' loan.pk%}">Edit</a><br>
+        <a href="{% url 'delete_loan' loan.pk%}">Delete</a><br><br>
+    {% endfor %}
+{% endblock %}

@@ -4,7 +4,8 @@ from .views import (
     StoreListView, StoreCreateView, StoreDetailView, StoreUpdateView,
     BookListView, BookDetailView, BookCreateView, BookUpdateView,
     StudentListView, StudentDetailView, StudentCreateView, StudentUpdateView,
-    AuthorListView, AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
+    AuthorListView, AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView,
+    LoanListView, LoanDetailView, LoanCreateView, LoanUpdateView, LoanDeleteView,
 )
 
 urlpatterns = [
@@ -34,6 +35,10 @@ urlpatterns = [
     path('author/create', AuthorCreateView.as_view(), name='create_author'),
     path('author/update/<int:pk>', AuthorUpdateView.as_view(), name='update_author'),
     path('author/delete/<int:pk>', AuthorDeleteView.as_view(), name='delete_author'),
-
+    # loan
+    path('loan/list', LoanListView.as_view(), name='list_loan'),
+    path('loan/detail/<int:pk>', LoanDetailView.as_view(), name='detail_loan'),
+    path('loan/create', LoanCreateView.as_view(), name='create_loan'),
+    path('loan/update/<int:pk>', LoanUpdateView.as_view(), name='update_loan'),
+    path('loan/delete/<int:pk>', LoanDeleteView.as_view(), name='delete_loan'),
 ]
-
