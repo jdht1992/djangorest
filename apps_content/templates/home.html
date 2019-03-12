@@ -16,6 +16,8 @@
     {% else %}
         <p><a href="{% url 'account_signup' %}">Sign Up</a></p>
         <p><a href="{% url 'account_login' %}">Log In </a></p>
+        {% load socialaccount %}
+        <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
     {% endif %}
 </body>
 </html>

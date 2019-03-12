@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView
 from django.urls import reverse_lazy
+from django import forms
+
 
 from .forms import BookModelForm
 
@@ -100,6 +102,12 @@ class BookCreateView(CreateView):
         book.created_by = self.request.user
         book.save()
         return super(BookCreateView, self).form_valid(form)
+
+    def get_form(self, form_class=None):
+        form = super(BookCreateView, self).get_form(form_class=form_class)
+        # Modificar en tiempo real
+        form.fields['name'].widget = forms.TextInput(attrs={'class': 'form-control mb-4', 'placeholder': 'Nombre del usuario'})
+        return form
 
 
 class BookUpdateView(UpdateView):
