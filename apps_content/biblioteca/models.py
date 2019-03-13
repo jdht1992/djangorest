@@ -16,7 +16,7 @@ class Author(TimeStampedModel):
 
 
 class Publisher(TimeStampedModel):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
     city = models.CharField(max_length=60)
     state_province = models.CharField(max_length=30)
@@ -31,15 +31,15 @@ class Publisher(TimeStampedModel):
 
 
 class Book(TimeStampedModel):
-    name = models.CharField(max_length=300)
-    book_code = models.CharField(max_length=300)
+    name = models.CharField(max_length=50)
+    book_code = models.CharField(max_length=50)
     pages = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)#para almacenar números hasta 999 con una resolución de 2 decimales
     rating = models.FloatField()
     authors = models.ManyToManyField(Author, related_name="books", blank=True)
     publisher = models.ForeignKey(Publisher, related_name="books", on_delete=models.CASCADE)
     publication_date = models.DateField()
-    gender = models.CharField(max_length=300)
+    gender = models.CharField(max_length=50)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='book')
     file_book = models.FileField(upload_to='file_book', default='nada.png')
 
@@ -101,7 +101,7 @@ class Student(TimeStampedModel):
     telephone_number = models.CharField(max_length=12)
     additional_data = models.TextField(max_length=500, blank=True)
     birthday = models.DateField()
-    image = models.ImageField(upload_to='img_student')
+    image = models.ImageField(upload_to='img_student', max_length=50)
 
     class Meta:  # new
         verbose_name = 'student'

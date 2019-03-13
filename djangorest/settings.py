@@ -3,7 +3,7 @@ import environ
 ROOT_DIR = environ.Path(__file__) - 2
 
 APPS_DIR = ROOT_DIR.path('apps_content')
-
+print(APPS_DIR)
 #We will use the environ.Env() function that will find a .env file in our project root, then 
 env = environ.Env()
 
