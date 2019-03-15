@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django import forms
+from django.db.models import Avg, Max, Min, FloatField
 
 from .forms import BookModelForm
 
@@ -96,13 +97,24 @@ class StoreDeleteView(DeleteView):
         return reverse_lazy('list_store')
 
 
-
 class BookListView(ListView):
     template_name = 'book/list-book.html'
     context_object_name = 'books'
 
     def get_queryset(self):
         return Book.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_books'] = Book.objects.count()
+        context['average_price'] = Book.objects.aggregate(Avg('price')).get('price__avg', 0)
+        context['price_max'] = Book.objects.aggregate(Max('price')).get('price__max', 0)
+        context['price_min'] = Book.objects.aggregate(Min('price')).get('price__min', 0)
+        context['books_publisher'] = Book.objects.filter(publisher__name='Rama').count()
+        context['books_rama'] = Book.objects.all().filter(publisher__name='Rama')
+        context['dif_precio'] = Book.objects.aggregate(
+            price_diff=Max('price', output_field=FloatField()) - Avg('price')).get('price_diff', 0)
+        return context
 
 
 class BookDetailView(DetailView):
@@ -111,6 +123,15 @@ class BookDetailView(DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Book, pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # book = Book.objects.first()
+        context['n_author'] = self.get_object().authors.count()
+        context['authro_name'] = ','.join(self.get_object().authors.values_list('name', flat=True))
+        context['book_publisher'] = self.get_object().store_set.count()
+        context['stores'] = Store.objects.filter(books__name=self.object.name)
+        return context
 
 
 class BookCreateView(CreateView):
@@ -139,6 +160,7 @@ class BookUpdateView(UpdateView):
     success_url = reverse_lazy('list_book')
 
     def form_valid(self, form):
+        #print(form.cleaned_data)
         book = form.save(commit=False)
         book.created_by = self.request.user
         book.save()
@@ -200,6 +222,14 @@ class AuthorListView(ListView):
     def get_queryset(self):
         return Author.objects.all()
 
+    #def get_queryset(self):
+    #    name = self.request.GET.get('name')
+    #    if name:
+    #        queryset = Author.objects.filter(name__icontains=name)
+    #    else:
+    #        queryset = Author.objects.all()
+    #    return queryset
+
 
 class AuthorDetailView(DetailView):
     template_name = 'author/detail-author.html'
@@ -208,14 +238,21 @@ class AuthorDetailView(DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Author, pk=self.kwargs['pk'])
 
+    #def get_object(self):
+    #    obj = super().get_object()
+    #    # Record the last accessed date
+    #    obj.last_accessed = timezone.now()
+    #    obj.save()
+    #    return obj
+
 
 class AuthorCreateView(CreateView):
     model = Author
     template_name = 'author/create-author.html'
     fields = ('name', 'age', 'salutation', 'email')
 
-    def get_success_url(self):
-        return reverse_lazy('create_author')
+#    def get_success_url(self):
+#        return reverse_lazy('create_author')
 
 
 class AuthorUpdateView(UpdateView):
@@ -223,6 +260,10 @@ class AuthorUpdateView(UpdateView):
     template_name = 'author/update-author.html'
     fields = ('name', 'age', 'salutation', 'email')
     success_url = reverse_lazy('list_author')
+
+    # def get_object(self):
+    #    id_ = self.kwargs.get("pk")
+    #    return get_object_or_404(Author, id=id_)
 
     def get_object(self, queryset=None):
         return get_object_or_404(Author, pk=self.kwargs['pk'])
@@ -305,6 +346,12 @@ class PublisherDetailView(DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Publisher, pk=self.kwargs['pk'])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['book_list'] = self.get_object().books.all()
+        context['num_book'] = self.get_object().books.all().count()
+        return context
+
 
 class PublisherCreateView(CreateView):
     model = Publisher
@@ -335,3 +382,24 @@ class PublisherDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('list_publisher')
+
+
+"""
+class CreateUser(FormView):
+    template_name='usuario/nuevo-user.html'
+    form_class=CreateUserModelForm
+
+    def get_success_url(self):
+        return reverse('nuevo_user')
+
+    def post(self, request, *args, **kwargs):
+        form=self.get_form()
+        u=User.objects.create_user(
+            form.cleaned_data['username'],
+            form.cleaned_data['email'],
+            form.cleaned_data['password']
+        )
+        u.last_name=form.cleaned_data['last_name']
+        u.save()
+        return self.form_valid(form)
+"""

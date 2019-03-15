@@ -14,6 +14,8 @@ urlpatterns = [
     path('', include('apps_content.biblioteca.urls')),
     #users
     path('users/', include('apps_content.users.urls')),
+    #sendemail
+    path('sendemail/', include('apps_content.sendemail.urls')),
     path('users/', include('django.contrib.auth.urls')),
     #accoints
     path('accounts/', include('allauth.urls')),  # new

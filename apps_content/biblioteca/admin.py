@@ -36,9 +36,16 @@ class StudentAdmin(admin.ModelAdmin):
         )
     )
 
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(University)
-admin.site.register(Book)
+
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'book_code', 'pages', 'gender', 'created_by')
+
+
+admin.site.register(Book, BookAdmin)
 admin.site.register(Author)
 admin.site.register(Publisher)
 admin.site.register(Loan)

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}<title>List Book</title>{% endblock %}
 {% block content %}
+    <h2>Total de Libros: {{total_books}}</h2>
+    <p>Precio promedio : {{average_price}}</p>
+    <p>Precio Maximo : {{price_max}}</p>
+    <p>Precio Minimo : {{price_min}}</p>
+    <p>Diferencia de precio maxico con el promedio : {{dif_precio}}</p>
+
 <h1>Lista de book</h1>
 <a href="{% url 'create_book' %}">Crear</a><br>
 {% for book in books %}
@@ -9,5 +15,11 @@
         </a>
         <a href="{% url 'update_book' book.pk %}">Editar</a><br>
         <a href="{% url 'delete_book' book.pk %}">Delete</a><br><br>
+    {% endfor %}
+
+    <h2>Libros de la editorial Rama</h2>
+    <p>Total de libros de la editorial Rama: {{books_publisher}}</p>
+    {% for book_rama in books_rama %}
+    <p>Nombre: {{book_rama.name}}</p>
     {% endfor %}
 {% endblock %}

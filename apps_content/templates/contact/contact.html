@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Create book</title>
+    <title>create contact</title>
 {% endblock %}
 {% block content %}
-<h1>create book</h1>
+<h1>Crear contact</h1>
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{form.as_p}}
-        <a href="{% url 'list_book' %}">Regresar</a>
+        <a href="{% url 'list_student' %}">Regresar</a>
         <input type="submit" value="Guardar">
     </form>
 {% endblock %}

@@ -8,6 +8,14 @@
     <p>date_s - {{publisher.state_province}}</p>
     <p>date_e - {{publisher.country}}</p>
     <p>date_d - {{publisher.website}}</p>
+    <h2>Libros de la Editorial: {{publisher.name}}</h2>
+    <p>Numero de libros:{{num_book}}</p>
+    {% for publisher in book_list %}
+    <li>Libro: {{ publisher.name }}</li>
+    <li>Paginas: {{ publisher.pages }}</li>
+    <li>Precio: {{ publisher.price }}</li>
+    <br>
+    {% endfor %}
 <a href="{% url 'list_publisher' %}">Back</a>
 {% endblock %}
 

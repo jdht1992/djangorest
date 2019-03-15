@@ -59,6 +59,7 @@ LOCAL_APPS = (
     'apps_content.api',
     'apps_content.biblioteca',
     'apps_content.users',
+    'apps_content.sendemail'
 )
 
 AUTH_USER_MODEL = 'users.CustomUser' # new
@@ -66,6 +67,8 @@ AUTH_USER_MODEL = 'users.CustomUser' # new
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -225,3 +228,8 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jdhet34@gmail.com'
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
