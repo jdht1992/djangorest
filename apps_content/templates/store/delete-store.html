@@ -5,7 +5,7 @@
 {% block content %}
  <h1>delete store</h1>
         <form action="" method="POST">{% csrf_token %}
-            <p>Desea eliminar el store {{store.name}}</p>
+            <p>Desea eliminar el store <b>{{store.name}}</b></p>
             <input type="submit" value="Delete">
             <a href="{% url 'list_store' %}">Back</a>
         </form>

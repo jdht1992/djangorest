@@ -43,7 +43,7 @@ class Book(TimeStampedModel):
     pages = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)#para almacenar números hasta 999 con una resolución de 2 decimales
     rating = models.FloatField()
-    authors = models.ManyToManyField(Author, related_name="books", blank=True)
+    authors = models.ManyToManyField(Author, related_name="books", related_query_name='book', blank=True)
     publisher = models.ForeignKey(Publisher, related_name="books", related_query_name='book', on_delete=models.CASCADE)
     publication_date = models.DateField()
     gender = models.CharField(max_length=50)
@@ -57,13 +57,18 @@ class Book(TimeStampedModel):
     #    self.created_by =
     #    super(Book, self).save(*args, **kwargs)
 
+#    def __init__(self, *args, **kwargs):
+#        self.request = kwargs.pop('request', None)
+#        self.created_by = self.request.user.email
+#        super(Book, self).__init__(*args, **kwargs)
+
 
 class Store(TimeStampedModel):
     # Cuando no tiene relacion puede configurarlo como un primer argumento opcional el name.
     name = models.CharField('Name', max_length=100)
     # O bien puesdes usar verbose_name
     direction = models.CharField(verbose_name='Direction', max_length=100)
-    books = models.ManyToManyField(Book)
+    books = models.ManyToManyField(Book, related_name='stores', related_query_name='store')
 
     def __str__(self):
         return self.name
@@ -127,8 +132,8 @@ class Student(TimeStampedModel):
 
 class Loan(TimeStampedModel):
     order_number = models.CharField(max_length=300)
-    book = models.ManyToManyField(Book, related_name='loan')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='loan')
+    book = models.ManyToManyField(Book, related_name='loans', related_query_name='loan')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='loans', related_query_name='loan')
     date_s = models.DateField()
     date_e = models.DateField()
     date_d = models.DateField()

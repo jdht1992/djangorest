@@ -1,6 +1,5 @@
 {% load socialaccount %}
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +10,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-reboot.min.css' %}">
     {% block title %}<title>Basa</title>{% endblock %}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
+{% endblock %}
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

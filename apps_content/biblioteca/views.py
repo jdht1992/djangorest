@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django import forms
 from django.db.models import Avg, Max, Min, FloatField
 
-from .forms import BookModelForm
+from django.forms import forms
 
+from .forms import BookModelForm
 from .models import University, Store, Book, Student, Author, Loan, Publisher
 
 
@@ -161,6 +161,7 @@ class BookUpdateView(UpdateView):
 
     def form_valid(self, form):
         #print(form.cleaned_data)
+
         book = form.save(commit=False)
         book.created_by = self.request.user
         book.save()

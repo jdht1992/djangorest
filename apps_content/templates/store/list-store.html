@@ -3,11 +3,20 @@
 {% block content %}
     <h1>List Store</h1>
     <a href="{% url 'create_store' %}">Create</a><br>
-    {% for store in stores %}
-        <a href="{% url 'detail_store' store.pk %}">
-            {{store.pk}} - {{store.name}}<br>
-        </a>
-        <a href="{% url 'update_store' store.pk %}">Editar</a><br>
-        <a href="{% url 'delete_store' store.pk %}">Delete</a><br><br>
-    {% endfor %}
+    <table style="width:30%">
+        <tr>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for store in stores %}
+            <tr>
+                <td><a href="{% url 'detail_store' store.pk %}">
+                    {{ store.pk }} - {{ store.name }}
+                </a></td>
+                <td><a href="{% url 'update_store' store.pk %}">Editar</a></td>
+                <td><a href="{% url 'delete_store' store.pk %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

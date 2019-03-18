@@ -4,6 +4,10 @@
 <h1>Detalle del tienda</h1>
     <p>Nombre - {{store.name}}</p>
     <p>Direccion - {{store.direction}}</p>
-    <p>Direccion - {{store.books}}</p>
+    <p>Store -
+    {% for store in store.books.all %}
+        {{store}}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
 <a href="{% url 'list_store' %}">Regresar</a>
 {% endblock %}

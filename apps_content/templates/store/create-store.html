@@ -3,10 +3,13 @@
     <title>create store</title>
 {% endblock %}
 {% block content %}
-<h1>Crear Tienda</h1>
+    <h3>lista de trabajadores</h3>
+    <ul id="lista">
+    </ul>
+    <h1>Crear Tienda</h1>
     <form action="" method="POST">{% csrf_token %}
-        {{form.as_p}}
+        {{ form.as_p }}
         <a href="{% url 'list_store' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        <input type="submit" value="Guardar" id="save_btn">
     </form>
 {% endblock %}

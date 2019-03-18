@@ -17,11 +17,16 @@
     <p>Publication date - {{book.publication_date}}</p>
     <p>Gender - {{book.gender}}</p>
     <a href="{{ book.file_book.url }}">visualizar</a><br>
+    <p>
+    Numero de prestamo:
+    {% for loan in book.loans.all  %}
+        {{ loan }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
 
     <b><h2>Datos adicionales</h2></b><br>
     <p>Numero de autores: {{n_author}}</p>
     <p>Numero de autores: {{authro_name}}</p>
-
 
     <p>En cuantas tiendas esta el Libro: {{book_publisher}}</p>
     {% for store in stores %}
