@@ -15,9 +15,9 @@ class Author(TimeStampedModel):
     def __str__(self):
         return f"{self.id} - {self.name}"
 
-    def get_absolute_url(self):
-        return reverse('detail_author', args=[str(self.id)])
 
+    def get_absolute_url(self):        # args=[self.id]
+        return reverse('detail_author', args=[str(self.id)])
 
 class Publisher(TimeStampedModel):
     name = models.CharField(max_length=50)
@@ -34,7 +34,7 @@ class Publisher(TimeStampedModel):
         return f"{self.pk} - {self.name}"
 
     def get_absolute_url(self):
-        return reverse('detail_author', kwargs={'pk': self.id})
+        return reverse('detail_publisher', kwargs={'pk': self.id})
 
 
 class Book(TimeStampedModel):

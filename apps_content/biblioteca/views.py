@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Avg, Max, Min, FloatField
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.forms import forms
 
@@ -19,27 +20,27 @@ class UniversityListView(ListView):
     context_object_name = 'universities'
 
 
-class UniversityDetailView(DetailView):
+class UniversityDetailView(LoginRequiredMixin, DetailView):
     model = University
     template_name = 'university/detail-university.html'
     context_object_name = 'university'
 
 
-class UniversityCreateView(CreateView):
+class UniversityCreateView(LoginRequiredMixin, CreateView):
     model = University
     template_name = 'university/create-university.html'
     fields = ('full_name', 'address', 'city')
     success_url = reverse_lazy('list_university')
 
 
-class UniversityUpdateView(UpdateView):
+class UniversityUpdateView(LoginRequiredMixin, UpdateView):
     model = University
     template_name = 'university/update-university.html'
     fields = ('full_name', 'address', 'city')
     success_url = reverse_lazy('list_university')
 
 
-class UniversityDeleteView(DeleteView):
+class UniversityDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'university/delete-university.html'
     context_object_name = 'university'
 
@@ -58,7 +59,7 @@ class StoreListView(ListView):
         return Store.objects.all()
 
 
-class StoreDetailView(DetailView):
+class StoreDetailView(LoginRequiredMixin, DetailView):
     template_name = 'store/detail-store.html'
     context_object_name = 'store'
 
@@ -66,7 +67,7 @@ class StoreDetailView(DetailView):
         return get_object_or_404(Store, pk=self.kwargs['pk'])
 
 
-class StoreCreateView(CreateView):
+class StoreCreateView(LoginRequiredMixin, CreateView):
     model = Store
     template_name = 'store/create-store.html'
     fields = ('name', 'direction', 'books')
@@ -75,7 +76,7 @@ class StoreCreateView(CreateView):
         return reverse_lazy('create_store')
 
 
-class StoreUpdateView(UpdateView):
+class StoreUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'store/update-store.html'
     fields = ('name', 'direction', 'books')
 
@@ -86,7 +87,7 @@ class StoreUpdateView(UpdateView):
         return reverse_lazy('update_store', args=[self.object.pk])
 
 
-class StoreDeleteView(DeleteView):
+class StoreDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'store/delete-store.html'
     context_object_name = 'store'
 
@@ -117,7 +118,7 @@ class BookListView(ListView):
         return context
 
 
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin, DetailView):
     template_name = 'book/detail-book.html'
     context_object_name = 'book'
 
@@ -134,7 +135,7 @@ class BookDetailView(DetailView):
         return context
 
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     form_class = BookModelForm
     template_name = 'book/create-book.html'
@@ -153,7 +154,7 @@ class BookCreateView(CreateView):
         return form
 
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     form_class = BookModelForm
     template_name = 'book/update-book.html'
@@ -168,7 +169,7 @@ class BookUpdateView(UpdateView):
         return super(BookUpdateView, self).form_valid(form)
 
 
-class BookDeleteView(DeleteView):
+class BookDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'book/delete-book.html'
     context_object_name = 'book'
 
@@ -185,27 +186,27 @@ class StudentListView(ListView):
     context_object_name = 'students'
 
 
-class StudentDetailView(DetailView):
+class StudentDetailView(LoginRequiredMixin, DetailView):
     model = Student
     template_name = 'student/detail-student.html'
     context_object_name = 'student'
 
 
-class StudentCreateView(CreateView):
+class StudentCreateView(LoginRequiredMixin, CreateView):
     model = Student
     fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
     template_name = 'student/create-student.html'
     success_url = reverse_lazy('list_student')
 
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(LoginRequiredMixin, UpdateView):
     model = Student
     fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
     template_name = 'student/update-student.html'
     success_url = reverse_lazy('list_student')
 
 
-class StudentDeleteView(DeleteView):
+class StudentDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'student/delete-student.html'
     context_object_name = 'student'
 
@@ -232,7 +233,7 @@ class AuthorListView(ListView):
     #    return queryset
 
 
-class AuthorDetailView(DetailView):
+class AuthorDetailView(LoginRequiredMixin, DetailView):
     template_name = 'author/detail-author.html'
     context_object_name = 'author'
 
@@ -247,7 +248,7 @@ class AuthorDetailView(DetailView):
     #    return obj
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(LoginRequiredMixin, CreateView):
     model = Author
     template_name = 'author/create-author.html'
     fields = ('name', 'age', 'salutation', 'email')
@@ -256,25 +257,22 @@ class AuthorCreateView(CreateView):
 #        return reverse_lazy('create_author')
 
 
-class AuthorUpdateView(UpdateView):
-    model = Author
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'author/update-author.html'
     fields = ('name', 'age', 'salutation', 'email')
-    success_url = reverse_lazy('list_author')
 
     # def get_object(self):
     #    id_ = self.kwargs.get("pk")
     #    return get_object_or_404(Author, id=id_)
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Author, pk=self.kwargs['pk'])
+        return get_object_or_404(Author, id=self.kwargs['pk'])
 
     def get_success_url(self):
-        return reverse_lazy('update_author', args=[self.object.pk])
+        return reverse_lazy('update_author', kwargs={'pk': self.object.id})
 
 
-class AuthorDeleteView(DeleteView):
-    model = Author
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'author/delete-author.html'
     context_object_name = 'author'
 
@@ -293,7 +291,7 @@ class LoanListView(ListView):
         return Loan.objects.all()
 
 
-class LoanDetailView(DetailView):
+class LoanDetailView(LoginRequiredMixin, DetailView):
     template_name = 'loan/detail-loan.html'
     context_object_name = 'loan'
 
@@ -301,7 +299,7 @@ class LoanDetailView(DetailView):
         return get_object_or_404(Loan, pk=self.kwargs['pk'])
 
 
-class LoanCreateView(CreateView):
+class LoanCreateView(LoginRequiredMixin, CreateView):
     model = Loan
     template_name = 'loan/create-loan.html'
     fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
@@ -310,7 +308,7 @@ class LoanCreateView(CreateView):
         return reverse_lazy('create_loan')
 
 
-class LoanUpdateView(UpdateView):
+class LoanUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'loan/update-loan.html'
     fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
 
@@ -321,7 +319,7 @@ class LoanUpdateView(UpdateView):
         return reverse_lazy('update_loan', args=[self.object.pk])
 
 
-class LoanDeleteView(DeleteView):
+class LoanDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'loan/delete-loan.html'
     context_object_name = 'loan'
 
@@ -340,7 +338,7 @@ class PublisherListView(ListView):
         return Publisher.objects.all()
 
 
-class PublisherDetailView(DetailView):
+class PublisherDetailView(LoginRequiredMixin, DetailView):
     template_name = 'publisher/detail-publisher.html'
     context_object_name = 'publisher'
 
@@ -354,7 +352,7 @@ class PublisherDetailView(DetailView):
         return context
 
 
-class PublisherCreateView(CreateView):
+class PublisherCreateView(LoginRequiredMixin, CreateView):
     model = Publisher
     template_name = 'publisher/create-publisher.html'
     fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
@@ -363,7 +361,7 @@ class PublisherCreateView(CreateView):
         return reverse_lazy('create_publisher')
 
 
-class PublisherUpdateView(UpdateView):
+class PublisherUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'publisher/update-publisher.html'
     fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
 
@@ -374,7 +372,7 @@ class PublisherUpdateView(UpdateView):
         return reverse_lazy('update_publisher', args=[self.object.pk])
 
 
-class PublisherDeleteView(DeleteView):
+class PublisherDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'publisher/delete-publisher.html'
     context_object_name = 'publisher'
 
