@@ -19,6 +19,7 @@ class Author(TimeStampedModel):
     def get_absolute_url(self):        # args=[self.id]
         return reverse('detail_author', args=[str(self.id)])
 
+
 class Publisher(TimeStampedModel):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
@@ -49,6 +50,7 @@ class Book(TimeStampedModel):
     gender = models.CharField(max_length=50)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='book')
     file_book = models.FileField(upload_to='file_book', default='nada.png')
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.pk} - {self.name}"

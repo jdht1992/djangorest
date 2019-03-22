@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Avg, Max, Min, FloatField
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from django.forms import forms
+from django import forms
 
 from .forms import BookModelForm
 from .models import University, Store, Book, Student, Author, Loan, Publisher
@@ -90,6 +90,7 @@ class StoreUpdateView(LoginRequiredMixin, UpdateView):
 class StoreDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'store/delete-store.html'
     context_object_name = 'store'
+    # Designates the name of the variable to use in the context.
 
     def get_object(self, queryset=None):
         return get_object_or_404(Store, pk=self.kwargs['pk'])
@@ -99,43 +100,54 @@ class StoreDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class BookListView(ListView):
+    queryset = Book.objects.all()
     template_name = 'book/list-book.html'
-    context_object_name = 'books'
+    ordering = ['created']
+    # context_object_name = 'books'
 
+    # def get_queryset(self):
+    #    return Book.objects.filter(created_by=self.request.user)
     def get_queryset(self):
-        return Book.objects.all()
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['books'] = self.object_list
         context['total_books'] = Book.objects.count()
         context['average_price'] = Book.objects.aggregate(Avg('price')).get('price__avg', 0)
         context['price_max'] = Book.objects.aggregate(Max('price')).get('price__max', 0)
         context['price_min'] = Book.objects.aggregate(Min('price')).get('price__min', 0)
         context['books_publisher'] = Book.objects.filter(publisher__name='Rama').count()
         context['books_rama'] = Book.objects.all().filter(publisher__name='Rama')
-        context['dif_precio'] = Book.objects.aggregate(
+        context['dif_price'] = Book.objects.aggregate(
             price_diff=Max('price', output_field=FloatField()) - Avg('price')).get('price_diff', 0)
         return context
 
 
 class BookDetailView(LoginRequiredMixin, DetailView):
+    #queryset = Book.objects.filter(is_published=True)
     template_name = 'book/detail-book.html'
     context_object_name = 'book'
 
-    def get_object(self, queryset=None):
-        return get_object_or_404(Book, pk=self.kwargs['pk'])
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Book.objects.filter(is_published=True, created_by=self.request.user)
+        else:
+            return Book.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # book = Book.objects.first()
-        context['n_author'] = self.get_object().authors.count()
-        context['authro_name'] = ','.join(self.get_object().authors.values_list('name', flat=True))
-        context['book_publisher'] = self.get_object().store_set.count()
+        context['n_author'] = self.object.authors.count()
+        context['author_name'] = ','.join(self.object.authors.values_list('name', flat=True))
+        context['book_publisher'] = self.object.stores.count()
         context['stores'] = Store.objects.filter(books__name=self.object.name)
         return context
 
 
 class BookCreateView(LoginRequiredMixin, CreateView):
+    # If your list page’s queryset doesn’t need any filtering
     model = Book
     form_class = BookModelForm
     template_name = 'book/create-book.html'
@@ -153,12 +165,22 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         form.fields['name'].widget = forms.TextInput(attrs={'class': 'form-control mb-4', 'placeholder': 'Nombre del usuario'})
         return form
 
+    # Assume we want to populate form’s title field with some initial data.
+    def get_initial(self, *args, **kwargs):
+        initial = super(BookCreateView, self).get_initial(**kwargs)
+        initial['gender'] = 'Pelea'
+        return initial
 
-class BookUpdateView(LoginRequiredMixin, UpdateView):
+
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Book
     form_class = BookModelForm
     template_name = 'book/update-book.html'
     success_url = reverse_lazy('list_book')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.created_by == self.request.user
 
     def form_valid(self, form):
         #print(form.cleaned_data)
@@ -218,11 +240,10 @@ class StudentDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class AuthorListView(ListView):
+    # represents the objects, supersedes the value provided for model, is a class attribute with a mutable value
+    queryset = Author.objects.all()
     template_name = 'author/list-author.html'
     context_object_name = 'authors'
-
-    def get_queryset(self):
-        return Author.objects.all()
 
     #def get_queryset(self):
     #    name = self.request.GET.get('name')
