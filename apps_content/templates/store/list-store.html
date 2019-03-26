@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}<title>List store</title>{% endblock %}
+{% load static %}
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'css/store_list.css' %}">{% endblock %}
+{% block title %}List store{% endblock %}
 {% block content %}
     <h1>List Store</h1>
     <a href="{% url 'create_store' %}">Create</a><br>
@@ -14,7 +16,7 @@
                 <td><a href="{% url 'detail_store' store.pk %}">
                     {{ store.pk }} - {{ store.name }}
                 </a></td>
-                <td><a href="{% url 'update_store' store.pk %}">Editar</a></td>
+                <td><a href="{% url 'update_store' store.pk %}">Edit</a></td>
                 <td><a href="{% url 'delete_store' store.pk %}">Delete</a></td>
             </tr>
         {% endfor %}

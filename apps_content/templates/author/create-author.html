@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>create author</title>
-{% endblock %}
+{% block title %}Create author{% endblock %}
 {% block content %}
-<h1>Crear author</h1>
+<h1>Create author</h1>
     <form action="" method="POST">{% csrf_token %}
         {{form.as_p}}
-        <a href="{% url 'list_author' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        <a href="{% url 'list_author' %}">Back</a>
+        <input type="submit" value="Save">
     </form>
 {% endblock %}

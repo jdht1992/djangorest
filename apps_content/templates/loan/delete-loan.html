@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>delete loan</title>
-{% endblock %}
+{% block title %}Delete loan{% endblock %}
 {% block content %}
- <h1>delete Loan</h1>
-        <form action="" method="POST">{% csrf_token %}
-            <p>Desea eliminar el autor {{loan.number_order}}</p>
-            <input type="submit" value="Eliminar">
-            <a href="{% url 'list_author' %}">Regresar</a>
-        </form>
+    <h1>Delete loan</h1>
+    <form action="" method="POST">{% csrf_token %}
+        <p>Are you sure you want to delete <b>"{{ object }}"</b>?</p>
+        <a href="{% url 'list_author' %}">Back</a>
+        <input type="submit" value="Confirm">
+    </form>
 {% endblock %}

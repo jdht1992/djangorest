@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}<title>detail loan</title>{% endblock %}
+{% block title %}Detail loan{% endblock %}
 {% block content %}
-<h1>detail loan</h1>
-    <p>number order - {{loan.order_number}}</p>
-    <p>book - {{loan.book}}</p>
-    <p>student - {{loan.student}}</p>
-    <p>date_s - {{loan.date_s}}</p>
-    <p>date_e - {{loan.date_e}}</p>
-    <p>date_d - {{loan.date_d}}</p>
-<a href="{% url 'list_loan' %}">Regresar</a>
+<h1>Detail loan</h1>
+    <p>Number order: {{ loan.order_number }}</p>
+    <p>Book: {{ loan.book }}</p>
+    <p>Student: {{ loan.student }}</p>
+    <p>date_s: {{ loan.date_s }}</p>
+    <p>date_e: {{ loan.date_e }}</p>
+    <p>date_d: {{ loan.date_d }}</p>
+<a href="{% url 'list_loan' %}">Back</a>
 {% endblock %}
 

@@ -13,10 +13,9 @@ class Author(TimeStampedModel):
     email = models.EmailField()
 
     def __str__(self):
-        return f"{self.id} - {self.name}"
+        return self.name
 
-
-    def get_absolute_url(self):        # args=[self.id]
+    def get_absolute_url(self):       # args=[self.id]
         return reverse('detail_author', args=[str(self.id)])
 
 
@@ -32,7 +31,7 @@ class Publisher(TimeStampedModel):
         ordering = ["-pk"]
 
     def __str__(self):
-        return f"{self.pk} - {self.name}"
+        return self.name
 
     def get_absolute_url(self):
         return reverse('detail_publisher', kwargs={'pk': self.id})
@@ -53,7 +52,7 @@ class Book(TimeStampedModel):
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.pk} - {self.name}"
+        return self.name
 
     #def save(self, *args, **kwargs):
     #    self.created_by =
@@ -94,7 +93,7 @@ class University(TimeStampedModel):
         verbose_name_plural = 'universities'
 
     def __str__(self):
-        return f"{self.pk} - {self.full_name}"
+        return self.full_name
 
 
 class Student(TimeStampedModel):
@@ -129,7 +128,7 @@ class Student(TimeStampedModel):
         verbose_name_plural = 'students'
 
     def __str__(self):
-        return f"{self.first_name}"
+        return self.first_name
 
 
 class Loan(TimeStampedModel):

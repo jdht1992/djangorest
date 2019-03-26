@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>delete university</title>
-{% endblock %}
+{% block title %}Delete university{% endblock %}
 {% block content %}
- <h1>delete university</h1>
-        <form action="" method="POST">{% csrf_token %}
-            <p>Desea eliminar el university {{university.full_name}}</p>
-            <input type="submit" value="Delete">
-            <a href="{% url 'list_university' %}">Back</a>
-        </form>
+    <h1>Delete university</h1>
+    <form action="" method="POST">{% csrf_token %}
+        <p>Are you sure you want to delete <b>"{{ object }}"</b>?</p>
+        <a href="{% url 'list_university' %}">Back</a>
+        <input type="submit" value="Confirm">
+    </form>
 {% endblock %}

@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>update publisher</title>
-{% endblock %}
+{% block title %}Update publisher{% endblock %}
 {% block content %}
-<h1>update publisher</h1>
+    <h1>Update publisher</h1>
     <form action="" method="POST">{% csrf_token %}
-        {{form.as_p}}
+        {{ form.as_p }}
         <a href="{% url 'list_publisher' %}">Back</a>
-        <input type="submit" value="Save">
+        <input type="submit" value="Update">
     </form>
 {% endblock %}

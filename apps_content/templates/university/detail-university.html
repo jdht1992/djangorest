@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>detalle university</title>
-{% endblock %}
+{% block title %}Detail university{% endblock %}
 {% block content %}
-    <h1>Detalle de university</h1>
-    <p>Nombre - {{university.full_name}}</p>
-    <p>Addess - {{university.address}}</p>
-    <p>City - {{university.city}}</p>
-    <a href="{% url 'list_university' %}">Regresar</a>
+    <h1>Detail of university</h1>
+    <p>Full name: {{university.full_name}}</p>
+    <p>Addess: {{university.address}}</p>
+    <p>City: {{university.city}}</p>
+    <a href="{% url 'list_university' %}">Back</a>
 {% endblock %}

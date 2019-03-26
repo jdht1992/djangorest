@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% block title %} <title>university</title> {% endblock %}
+{% block title %}Create university{% endblock %}
 {% block content %}
     <h1>Create University</h1>
     <form action="" method="POST">{% csrf_token %}
         {{form.as_p}}
-        <a href="{% url 'list_university' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        <a href="{% url 'list_university' %}">Back</a>
+        <input type="submit" value="Save">
     </form>
 {% endblock %}
 

@@ -10,16 +10,16 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #biblioteca
+    # Biblioteca
     path('', include('apps_content.biblioteca.urls')),
-    #users
+    # users
     path('users/', include('apps_content.users.urls')),
-    #sendemail
+    # sendemail
     path('sendemail/', include('apps_content.sendemail.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    #accoints
+    # Accounts
     path('accounts/', include('allauth.urls')),  # new
-    #apirest
+    # apirest
     path('api/', include('apps_content.api.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

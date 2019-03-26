@@ -184,7 +184,6 @@ class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         #print(form.cleaned_data)
-
         book = form.save(commit=False)
         book.created_by = self.request.user
         book.save()
@@ -402,24 +401,3 @@ class PublisherDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('list_publisher')
-
-
-"""
-class CreateUser(FormView):
-    template_name='usuario/nuevo-user.html'
-    form_class=CreateUserModelForm
-
-    def get_success_url(self):
-        return reverse('nuevo_user')
-
-    def post(self, request, *args, **kwargs):
-        form=self.get_form()
-        u=User.objects.create_user(
-            form.cleaned_data['username'],
-            form.cleaned_data['email'],
-            form.cleaned_data['password']
-        )
-        u.last_name=form.cleaned_data['last_name']
-        u.save()
-        return self.form_valid(form)
-"""

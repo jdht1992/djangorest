@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}<title>detail publisher</title>{% endblock %}
+{% block title %}Detail publisher{% endblock %}
 {% block content %}
-<h1>detail publisher</h1>
-    <p>number order - {{publisher.name}}</p>
-    <p>book - {{publisher.address}}</p>
-    <p>student - {{publisher.city}}</p>
-    <p>date_s - {{publisher.state_province}}</p>
-    <p>date_e - {{publisher.country}}</p>
-    <p>date_d - {{publisher.website}}</p>
-    <h2>Libros de la Editorial: {{publisher.name}}</h2>
-    <p>Numero de libros:{{num_book}}</p>
+    <h1>Detail publisher</h1>
+    <p>Number order: {{ publisher.name }}</p>
+    <p>Book: {{ publisher.address }}</p>
+    <p>Student: {{ publisher.city }}</p>
+    <p>Date_s: {{ publisher.state_province }}</p>
+    <p>Country: {{ publisher.country }}</p>
+    <p>Web site: {{ publisher.website }}</p>
+    <h2>Books of the publisher: {{ publisher.name }}</h2>
+    <p>Number of books: {{ num_book }}</p>
     {% for publisher in book_list %}
-    <li>Libro: {{ publisher.name }}</li>
-    <li>Paginas: {{ publisher.pages }}</li>
-    <li>Precio: {{ publisher.price }}</li>
-    <br>
+        <li>Book name: {{ publisher.name }}</li>
+        <li>Pages: {{ publisher.pages }}</li>
+        <li>Price: {{ publisher.price }}</li>
+        <br>
     {% endfor %}
-<a href="{% url 'list_publisher' %}">Back</a>
+    <a href="{% url 'list_publisher' %}">Back</a>
 {% endblock %}
 

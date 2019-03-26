@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}<title>detail Store</title>{% endblock %}
+{% block title %}Detail store{% endblock %}
 {% block content %}
-<h1>Detalle del tienda</h1>
-    <p>Nombre - {{store.name}}</p>
-    <p>Direccion - {{store.direction}}</p>
-    <p>Store -
+<h1>Detail store</h1>
+    <p>Name: {{store.name}}</p>
+    <p>Direction: {{store.direction}}</p>
+    <p>Store:
     {% for store in store.books.all %}
         {{store}}{% if not forloop.last %}, {% endif %}
     {% endfor %}
     </p>
-<a href="{% url 'list_store' %}">Regresar</a>
+<a href="{% url 'list_store' %}">Back</a>
 {% endblock %}

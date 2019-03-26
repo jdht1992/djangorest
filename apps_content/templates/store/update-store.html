@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>update author</title>
-{% endblock %}
+{% block title %}Update author{% endblock %}
 {% block content %}
-<h1>update author</h1>
+    <h1>Update author</h1>
     <form action="" method="POST">{% csrf_token %}
-        {{form.as_p}}
-        <a href="{% url 'list_store' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        {{ form.as_p }}
+        <a href="{% url 'list_store' %}">Back</a>
+        <input type="submit" value="Update">
     </form>
 {% endblock %}

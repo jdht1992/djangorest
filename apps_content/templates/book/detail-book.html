@@ -1,38 +1,36 @@
 {% extends 'base.html' %}
-{% block title %}<title>detail book</title>{% endblock %}
+{% block title %}Detail book{% endblock %}
 {% block content %}
-<h1>Detalle del tienda</h1>
-    <p>Nombre - {{book.name}}</p>
-    <p>Book code - {{book.book_code}}</p>
-    <p>Pages - {{book.pages}}</p>
-    <p>Price - {{book.price}}</p>
-    <p>Rating - {{book.rating}}</p>
+    <h1>Detail store</h1>
+    <p>Name: {{ book.name }}</p>
+    <p>Book code: {{ book.book_code }}</p>
+    <p>Pages: {{ book.pages }}</p>
+    <p>Price: {{ book.price }}</p>
+    <p>Rating: {{ book.rating }}</p>
     <p>
-    Author:
-    {% for b in book.authors.all %}
-    {{b}}{% if not forloop.last %}, {% endif %}
-    {% endfor %}
+        Author:
+        {% for b in book.authors.all %}
+            {{ b }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
     </p>
-    <p>Publisher - {{book.publisher}}</p>
-    <p>Publication date - {{book.publication_date}}</p>
-    <p>Gender - {{book.gender}}</p>
+    <p>Publisher: {{ book.publisher }}</p>
+    <p>Publication date: {{ book.publication_date|date:"d/m/Y" }}</p>
+    <p>Gender: {{ book.gender }}</p>
     <a href="{{ book.file_book.url }}">visualizar</a><br>
     <p>
-    Numero de prestamo:
-    {% for loan in book.loans.all  %}
-        {{ loan }}{% if not forloop.last %}, {% endif %}
-    {% endfor %}
+        Number loan:
+        {% for loan in book.loans.all %}
+            {{ loan }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
     </p>
 
-    <b><h2>Datos adicionales</h2></b><br>
-    <p>Numero de autores: {{n_author}}</p>
-    <p>Numero de autores: {{author_name}}</p>
+    <b><h2>Additional data</h2></b><br>
+    <p>number of authors: {{ n_author }}</p>
+    <p>Author's name: {{ author_name }}</p>
 
-    <p>En cuantas tiendas esta el Libro: {{book_publisher}}</p>
+    <p>Stores where the book is located: {{ book_publisher }}</p>
     {% for store in stores %}
-        <p>Tienda: {{store.name}}</p>
+        <p>Store's name: {{ store.name }}</p>
     {% endfor %}
-
-<a href="{% url 'list_book' %}">Regresar</a>
-
+    <a href="{% url 'list_book' %}">Back</a>
 {% endblock %}

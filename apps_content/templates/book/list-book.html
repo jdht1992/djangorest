@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}List Book{% endblock %}
 {% block content %}
-    <h2>Total de Libros: {{ total_books }}</h2>
-    <p>Precio promedio : {{ average_price }}</p>
-    <p>Precio Maximo : {{ price_max }}</p>
-    <p>Precio Minimo : {{ price_min }}</p>
-    <p>Diferencia de precio maxico con el promedio : {{ dif_price }}</p>
+    <h2>Total of books: {{ total_books }}</h2>
+    <p>Average price: {{ average_price }}</p>
+    <p>Maximum price: {{ price_max }}</p>
+    <p>Minimal price: {{ price_min }}</p>
+    <p>Mexican price difference with the average: {{ dif_price }}</p>
 
     <h1>Lista de book</h1>
-    <a href="{% url 'create_book' %}">Crear</a><br>
+    <a href="{% url 'create_book' %}">Create</a><br>
     {% for book in books %}
         <a href="{% url 'detail_book' book.pk %}">
             {{ book.pk }} - {{ book.name }}<br>

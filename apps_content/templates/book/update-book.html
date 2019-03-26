@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>update book</title>
-{% endblock %}
+{% block title %}Update book{% endblock %}
 {% block content %}
-<h1>update book</h1>
+    <h1>Update book</h1>
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-        {{form.as_p}}
-        <a href="{% url 'list_book' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        {{ form.as_p }}
+        <a href="{% url 'list_book' %}">Back</a>
+        <input type="submit" value="Update">
     </form>
 {% endblock %}

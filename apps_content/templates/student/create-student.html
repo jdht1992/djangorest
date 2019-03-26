@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}
-    <title>create student</title>
-{% endblock %}
+{% block title %}Create student{% endblock %}
 {% block content %}
-    <h1>Crear student</h1>
+    <h1>Create student</h1>
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
-        <a href="{% url 'list_student' %}">Regresar</a>
-        <input type="submit" value="Guardar">
+        <a href="{% url 'list_student' %}">Back</a>
+        <input type="submit" value="Save">
     </form>
 {% endblock %}
