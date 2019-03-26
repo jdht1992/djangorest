@@ -3,7 +3,6 @@ from django.views.generic import CreateView, ListView, TemplateView, DetailView,
 from django.urls import reverse_lazy
 from django.db.models import Avg, Max, Min, FloatField
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
 from django import forms
 
 from .forms import BookModelForm
@@ -126,7 +125,7 @@ class BookListView(ListView):
 
 
 class BookDetailView(LoginRequiredMixin, DetailView):
-    #queryset = Book.objects.filter(is_published=True)
+    # queryset = Book.objects.filter(is_published=True)
     template_name = 'book/detail-book.html'
     context_object_name = 'book'
 

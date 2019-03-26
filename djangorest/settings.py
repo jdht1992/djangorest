@@ -28,7 +28,7 @@ DEBUG = env.bool('DEBUG')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -42,7 +42,7 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',# new
+    'django.contrib.sites', # new
 )
 
 THIRD_PARTY_APPS = (
@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount.providers.github',  # new
     'allauth.socialaccount.providers.facebook',  # new
     'rest_framework',
+    'debug_toolbar',
 )
 
 LOCAL_APPS = (
@@ -67,7 +68,7 @@ AUTH_USER_MODEL = 'users.CustomUser' # new
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 AUTHENTICATION_BACKENDS = (
@@ -120,6 +121,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # new
 ]
 
 ROOT_URLCONF = 'djangorest.urls'
@@ -192,17 +194,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-#Es la única configuración estática creada de forma predeterminada. Esta es la URL en la que se servirán los archivos estáticos.
+# Es la única configuración estática creada de forma predeterminada. Esta es la URL en la que se servirán los archivos estáticos.
 STATIC_URL = '/static/'
 
-#Donde se colocarán los archivos estáticos recogidos
+# Donde se colocarán los archivos estáticos recogidos
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 
-#carpetas Django buscará archivos estáticos en
+# carpetas Django buscará archivos estáticos en
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
 ]
-#especificaciones sobre qué archivos buscar
+# Especificaciones sobre qué archivos buscar
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -211,7 +213,7 @@ STATICFILES_FINDERS = (
 # URL agregada a la URL raíz para servir datos de medios
 MEDIA_URL = '/media/'
 
-#Donde se almacenarán los archivos multimedia recolectados
+# Donde se almacenarán los archivos multimedia recolectados
 MEDIA_ROOT = str(APPS_DIR('media'))
 
 REST_FRAMEWORK = {
@@ -233,3 +235,22 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jdhet34@gmail.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+
+# The Debug Toolbar is shown only if your IP is listed in the INTERNAL_IPS setting
+if DEBUG:
+   INTERNAL_IPS = ('127.0.0.1', 'localhost',)
+# This setting specifies the full Python path to each panel that you want included in the toolbar.
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]
