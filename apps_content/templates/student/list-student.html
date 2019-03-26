@@ -10,4 +10,14 @@
         <a href="{% url 'update_student' student.pk %}">Edit</a><br>
         <a href="{% url 'delete_student' student.pk %}">Delete</a><br><br>
     {% endfor %}
+    <p>Mayores de edad:
+    {% for greater in student_greater %}
+            {{ greater }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+    <p>Menor de edad:
+    {% for smaller in student_smaller %}
+            {{ smaller }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
 {% endblock %}

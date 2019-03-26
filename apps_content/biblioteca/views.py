@@ -205,6 +205,12 @@ class StudentListView(ListView):
     template_name = 'student/list-student.html'
     context_object_name = 'students'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student_greater'] = Student.objects.student_greater()
+        context['student_smaller'] = Student.objects.student_smaller()
+        return context
+
 
 class StudentDetailView(LoginRequiredMixin, DetailView):
     model = Student

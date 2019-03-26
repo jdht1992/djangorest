@@ -96,6 +96,14 @@ class University(TimeStampedModel):
         return self.full_name
 
 
+class StudentManager(models.Manager):
+    def student_smaller(self):
+        return self.filter(birthday__lt="2000-01-01")
+
+    def student_greater(self):
+        return self.filter(birthday__gt="2000-01-01")
+
+
 class Student(TimeStampedModel):
     # blank = False, null=False se requiere un valor.
     first_name = models.CharField('first name', max_length=30, blank=False, null=False, help_text='Nombre verdadero')
@@ -122,6 +130,8 @@ class Student(TimeStampedModel):
     additional_data = models.TextField(max_length=500, blank=True)
     birthday = models.DateField()
     image = models.ImageField(upload_to='img_student', max_length=50)
+
+    objects = StudentManager()
 
     class Meta:  # new
         verbose_name = 'student'
