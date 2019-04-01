@@ -12,6 +12,11 @@ from .models import University, Store, Book, Student, Author, Loan, Publisher
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
+    #def get_context_data(self, *args, **kwargs):
+    #    context = super(HomePageView, self).get_context_data(*args, **kwargs)
+    #    context['today'] = datetime.date.today()
+    #    return context
+
 
 class UniversityListView(ListView):
     model = University
@@ -28,87 +33,71 @@ class UniversityDetailView(LoginRequiredMixin, DetailView):
 class UniversityCreateView(LoginRequiredMixin, CreateView):
     model = University
     template_name = 'university/create-university.html'
-    fields = ('full_name', 'address', 'city')
+    fields = ('full_name', 'address', 'city', 'university_type')
     success_url = reverse_lazy('list_university')
 
 
 class UniversityUpdateView(LoginRequiredMixin, UpdateView):
     model = University
     template_name = 'university/update-university.html'
-    fields = ('full_name', 'address', 'city')
-    success_url = reverse_lazy('list_university')
+    fields = ('full_name', 'address', 'city', 'university_type')
+
+    def get_success_url(self):
+        return reverse_lazy('list_university', pk=self.kwargs['pk'])
 
 
 class UniversityDeleteView(LoginRequiredMixin, DeleteView):
+    model = University
     template_name = 'university/delete-university.html'
     context_object_name = 'university'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(University, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('list_university')
+    success_url = reverse_lazy('list_university')
 
 
 class StoreListView(ListView):
+    queryset = Store.objects.all().values('pk', 'name')
     template_name = 'store/list-store.html'
     context_object_name = 'stores'
 
-    def get_queryset(self):
-        return Store.objects.all()
-
 
 class StoreDetailView(LoginRequiredMixin, DetailView):
+    queryset = Store.objects.prefetch_related('books')
     template_name = 'store/detail-store.html'
     context_object_name = 'store'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Store, pk=self.kwargs['pk'])
 
 
 class StoreCreateView(LoginRequiredMixin, CreateView):
     model = Store
     template_name = 'store/create-store.html'
     fields = ('name', 'direction', 'books')
-
-    def get_success_url(self):
-        return reverse_lazy('create_store')
+    success_url = reverse_lazy('create_store')
 
 
 class StoreUpdateView(LoginRequiredMixin, UpdateView):
+    queryset = Store.objects.prefetch_related('books')
     template_name = 'store/update-store.html'
     fields = ('name', 'direction', 'books')
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Store, pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('update_store', args=[self.object.pk])
 
 
 class StoreDeleteView(LoginRequiredMixin, DeleteView):
+    queryset = Store.objects.prefetch_related('books')
     template_name = 'store/delete-store.html'
     context_object_name = 'store'
-    # Designates the name of the variable to use in the context.
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Store, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('list_store')
+    success_url = reverse_lazy('list_store')
 
 
 class BookListView(ListView):
-    queryset = Book.objects.all()
+    #queryset = Book.objects.all().values('pk', 'name')
     template_name = 'book/list-book.html'
     ordering = ['created']
-    # context_object_name = 'books'
 
-    # def get_queryset(self):
-    #    return Book.objects.filter(created_by=self.request.user)
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(created_by=self.request.user)
+        return Book.objects.filter(created_by=self.request.user).values('pk', 'name')
+    #def get_queryset(self):
+    #    queryset = super().get_queryset()
+    #    return queryset.filter(created_by=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -125,19 +114,19 @@ class BookListView(ListView):
 
 
 class BookDetailView(LoginRequiredMixin, DetailView):
-    # queryset = Book.objects.filter(is_published=True)
+    queryset = Book.objects.prefetch_related('authors').select_related('publisher').select_related('created_by')
     template_name = 'book/detail-book.html'
     context_object_name = 'book'
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         if self.request.user.is_authenticated:
-            return Book.objects.filter(is_published=True, created_by=self.request.user)
+            return queryset.filter(is_published=True, created_by=self.request.user)
         else:
             return Book.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # book = Book.objects.first()
         context['n_author'] = self.object.authors.count()
         context['author_name'] = ','.join(self.object.authors.values_list('name', flat=True))
         context['book_publisher'] = self.object.stores.count()
@@ -213,7 +202,8 @@ class StudentListView(ListView):
 
 
 class StudentDetailView(LoginRequiredMixin, DetailView):
-    model = Student
+    queryset = Student.objects.select_related('university')
+    #queryset = Student.objects.select_related()
     template_name = 'student/detail-student.html'
     context_object_name = 'student'
 
@@ -226,28 +216,30 @@ class StudentCreateView(LoginRequiredMixin, CreateView):
 
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
-    model = Student
+    queryset = Student.objects.select_related('university')
     fields = ('first_name', 'last_name', 'university', 'marital_status', 'gender', 'address', 'telephone_number', 'additional_data', 'birthday', 'image')
     template_name = 'student/update-student.html'
-    success_url = reverse_lazy('list_student')
+
+    def get_success_url(self):
+        return reverse_lazy('update_student', kwargs={'pk': self.object.id})
 
 
 class StudentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Student.objects.all()
     template_name = 'student/delete-student.html'
     context_object_name = 'student'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Student, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('list_student')
+    success_url = reverse_lazy('list_student')
 
 
 class AuthorListView(ListView):
     # represents the objects, supersedes the value provided for model, is a class attribute with a mutable value
-    queryset = Author.objects.all()
+    queryset = Author.objects.all().values('pk', 'name')
     template_name = 'author/list-author.html'
     context_object_name = 'authors'
+
+    #def get_queryset(self):
+    #    queryset = super(AuthorListView, self).get_queryset()
+    #    return queryset.filter(pk=self.kwargs['author_id'])
 
     #def get_queryset(self):
     #    name = self.request.GET.get('name')
@@ -278,9 +270,6 @@ class AuthorCreateView(LoginRequiredMixin, CreateView):
     template_name = 'author/create-author.html'
     fields = ('name', 'age', 'salutation', 'email')
 
-#    def get_success_url(self):
-#        return reverse_lazy('create_author')
-
 
 class AuthorUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'author/update-author.html'
@@ -300,67 +289,51 @@ class AuthorUpdateView(LoginRequiredMixin, UpdateView):
 class AuthorDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'author/delete-author.html'
     context_object_name = 'author'
+    success_url = reverse_lazy('list_author')
 
     def get_object(self, queryset=None):
         return get_object_or_404(Author, pk=self.kwargs['pk'])
 
-    def get_success_url(self):
-        return reverse_lazy('list_author')
-
 
 class LoanListView(ListView):
+    queryset = Loan.objects.all().values('pk', 'order_number')
     template_name = 'loan/list-loan.html'
     context_object_name = 'loans'
 
-    def get_queryset(self):
-        return Loan.objects.all()
-
 
 class LoanDetailView(LoginRequiredMixin, DetailView):
+    queryset = Loan.objects.prefetch_related('book').select_related('student')
     template_name = 'loan/detail-loan.html'
     context_object_name = 'loan'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Loan, pk=self.kwargs['pk'])
 
 
 class LoanCreateView(LoginRequiredMixin, CreateView):
     model = Loan
     template_name = 'loan/create-loan.html'
     fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
-
-    def get_success_url(self):
-        return reverse_lazy('create_loan')
+    success_url = reverse_lazy('create_loan')
 
 
 class LoanUpdateView(LoginRequiredMixin, UpdateView):
+    queryset = Loan.objects.all()
     template_name = 'loan/update-loan.html'
     fields = ('order_number', 'book', 'student', 'date_s', 'date_e', 'date_d')
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Loan, pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('update_loan', args=[self.object.pk])
 
 
 class LoanDeleteView(LoginRequiredMixin, DeleteView):
+    model = Loan
     template_name = 'loan/delete-loan.html'
     context_object_name = 'loan'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Loan, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('list_loan')
+    success_url = reverse_lazy('list_loan')
 
 
 class PublisherListView(ListView):
+    queryset = Publisher.objects.all().values('pk', 'name')
     template_name = 'publisher/list-publisher.html'
     context_object_name = 'publishers'
-
-    def get_queryset(self):
-        return Publisher.objects.all()
 
 
 class PublisherDetailView(LoginRequiredMixin, DetailView):
@@ -373,7 +346,7 @@ class PublisherDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['book_list'] = self.get_object().books.all()
-        context['num_book'] = self.get_object().books.all().count()
+        context['num_book'] = self.object.books.all().count()
         return context
 
 
@@ -381,28 +354,20 @@ class PublisherCreateView(LoginRequiredMixin, CreateView):
     model = Publisher
     template_name = 'publisher/create-publisher.html'
     fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
-
-    def get_success_url(self):
-        return reverse_lazy('create_publisher')
+    success_url = reverse_lazy('create_publisher')
 
 
 class PublisherUpdateView(LoginRequiredMixin, UpdateView):
+    model = Publisher
     template_name = 'publisher/update-publisher.html'
     fields = ('name', 'address', 'city', 'state_province', 'country', 'website')
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Publisher, pk=self.kwargs['pk'])
 
     def get_success_url(self):
         return reverse_lazy('update_publisher', args=[self.object.pk])
 
 
 class PublisherDeleteView(LoginRequiredMixin, DeleteView):
+    model = Publisher
     template_name = 'publisher/delete-publisher.html'
     context_object_name = 'publisher'
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(Loan, pk=self.kwargs['pk'])
-
-    def get_success_url(self):
-        return reverse_lazy('list_publisher')
+    success_url = reverse_lazy('list_publisher')

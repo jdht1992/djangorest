@@ -54,17 +54,8 @@ class Book(TimeStampedModel):
     def __str__(self):
         return self.name
 
-    #def save(self, *args, **kwargs):
-    #    self.created_by =
-    #    super(Book, self).save(*args, **kwargs)
 
-#    def __init__(self, *args, **kwargs):
-#        self.request = kwargs.pop('request', None)
-#        self.created_by = self.request.user.email
-#        super(Book, self).__init__(*args, **kwargs)
-
-
-class Store(TimeStampedModel):
+class Store(TimeStampedModel):# library
     # Cuando no tiene relacion puede configurarlo como un primer argumento opcional el name.
     name = models.CharField('Name', max_length=100)
     # O bien puesdes usar verbose_name
@@ -80,11 +71,11 @@ class University(TimeStampedModel):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=150)
     UNIVERSITY_TYPE = Choices(
-        #se almacena - se muestra en pantalla
+        # se almacena - se muestra en pantalla
         ('Public', 'A public university'),
         ('Private', 'A private university')
     )
-    university_type = models.CharField(choices=UNIVERSITY_TYPE, default=UNIVERSITY_TYPE, max_length=100)
+    university_type = models.CharField(choices=UNIVERSITY_TYPE, default=UNIVERSITY_TYPE.Public, max_length=30)
 
     class Meta:
         indexes = [models.Index(fields=['full_name'])]
@@ -133,7 +124,7 @@ class Student(TimeStampedModel):
 
     objects = StudentManager()
 
-    class Meta:  # new
+    class Meta:
         verbose_name = 'student'
         verbose_name_plural = 'students'
 
